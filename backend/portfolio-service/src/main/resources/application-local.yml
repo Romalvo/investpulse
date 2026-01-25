@@ -1,9 +1,6 @@
 spring:
-  application:
-    name: user-service
-
   datasource:
-    url: jdbc:postgresql://localhost:5432/investpulse_users
+    url: jdbc:postgresql://localhost:5433/portfolio_db
     username: postgres
     password: postgres
     driver-class-name: org.postgresql.Driver
@@ -12,9 +9,10 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: true
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
 
 server:
-  port: 8081
+  port: 8083
 
 jwt:
   secret: investPulseSecureJWTKeyForProductionUseAtLeast256BitsLongSecurityCompliant2024

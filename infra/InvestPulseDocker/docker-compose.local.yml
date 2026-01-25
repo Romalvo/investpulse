@@ -66,10 +66,40 @@ services:
     networks:
       - investpulse-net
 
+  portfolio-db:
+    image: postgres:15
+    container_name: investpulse-portfolio-db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: portfolio_db
+    ports:
+      - "5433:5432"
+    volumes:
+      - portfolio_data:/var/lib/postgresql/data
+    networks:
+      - investpulse-net
+
+    portfolio-service:
+      build:
+        context: ../../backend/portfolio-service
+        dockerfile: Dockerfile
+      container_name: investpulse-portfolio-service
+      environment:
+        SPRING_PROFILES_ACTIVE: docker
+      ports:
+        - "8083:8083"
+      depends_on:
+        - portfolio-db
+      networks:
+        - investpulse-net
+
+  networks:
+    investpulse-net:
+      driver: bridge
+
 volumes:
   postgres_data:
+  portfolio_data:
     driver: local
 
-networks:
-  investpulse-net:
-    driver: bridge
